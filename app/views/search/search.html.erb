@@ -1,0 +1,80 @@
+<div class="row mt-5">
+ <div class="mx-auto">
+  <h1><%= @model %>s search for "<%= @content %>"</h1>
+ </div>
+</div>
+
+  <div class="row mt-5">
+    <div class="col-md-10 mx-auto">
+<% if @model == "Book" %>
+  <% if @datas.length > 0 %>
+        <table class='table table-hover table-inverse'>
+          <thead class="thead-light">
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Opinion</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @datas.each do |data| %>
+              <tr>
+                <td><%= link_to user_path(data.user) do %>
+                  <%= attachment_image_tag(data.user, :profile_image, :fill, 50, 50, fallback: "no-image-icon.jpg") %>
+                  <% end %>
+                </td>
+                <td><%= link_to data.title, book_path(data) %></td>
+                <td><%= data.body %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+  <% else %>
+    <p class="no-result">検索結果がありません</p>
+  <% end %>
+  </div>
+
+<% else %>
+
+
+  <% if @datas.length > 0 %>
+    <table class='table table-hover table-inverse'>
+      <thead class="thead-light">
+        <tr>
+          <th>image</th>
+          <th>name</th>
+          <th colspan="4"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @datas.each do |user| %>
+          <tr>
+            <td><%= attachment_image_tag(user, :profile_image, :fill, 50, 50, fallback: "no-image-icon.jpg") %></td>
+            <td><%= user.name %></td>
+            <td>フォロー数: <%= user.follower.count %></td>
+            <td>フォロワー数: <%= user.followed.count %></td>
+            <td>
+                <% unless user == current_user %>
+                 <% if current_user.following?(user) %>
+                  <%= link_to 'フォロー外す', unfollow_path(user.id), method: :POST %>
+                 <% else %>
+                  <%= link_to 'フォローする', follow_path(user.id), method: :POST %>
+                 <% end %>
+                <% end %>
+            </td>
+            <td><%= link_to 'Show', user_path(user), class: "user_#{user.id}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  <% else %>
+
+    <p class="no-result">検索結果がありません</p>
+
+  <% end %>
+<% end %>
+
