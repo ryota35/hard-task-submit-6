@@ -1,0 +1,22 @@
+     <% comments.each do |comment| %>
+      <div class="container">
+        <div class="row mt-2">
+
+            <div class="col-md-2">
+              <%= attachment_image_tag(comment.user, :profile_image, :fill, 50, 50, fallback: "no-image-icon.jpg") %>
+              <p><%= comment.user.name %></p>
+            </div>
+
+            <div class="col-md-8">
+              <p class="comment-body"><%= comment.comment %></p>
+            </div>
+
+            <div class="col-md-2">
+              <% if comment.user == current_user %>
+              <%= link_to "Destroy", book_book_comment_path(book, comment.id), method: :delete, remote: true, class: "btn btn-sm btn-danger" %>
+            </div>
+
+        </div>
+        <% end %>
+      </div>
+      <% end %>

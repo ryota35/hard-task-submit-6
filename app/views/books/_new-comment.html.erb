@@ -1,0 +1,8 @@
+<div class="new-comment mt-2 col-md-12">
+  <%= form_with(model:[book, comment] ) do |f| %>
+    <%= f.text_area :comment, class: 'form-control border border-secondary focus input-lg' %>
+    <div class="mt-2">
+    <%= f.submit "送信" %>
+    </div>
+  <% end %>
+</div>
